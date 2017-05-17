@@ -1,0 +1,1772 @@
+R Codes used for the project:
+
+#Data input for each state
+Arkansas <- read.table(file.choose(), header = TRUE, sep = ",")
+California <- read.table(file.choose(), header = TRUE, sep = ",")
+DC <- read.table(file.choose(), header = TRUE, sep = ",")
+Indiana <- read.table(file.choose(), header = TRUE, sep = ",")
+NewYork <- read.table(file.choose(), header = TRUE, sep = ",")
+Wyoming <- read.table(file.choose(), header = TRUE, sep = ",")
+
+#Pairs Plot for each state
+pairs(Arkansas, main = "Arkansas")
+pairs(California, main = "California")
+pairs(DC, main = "DC")
+pairs(Indiana, main = "Indiana")
+pairs(NewYork, main = "New York")
+pairs(Wyoming, main = "Wyoming")
+
+#Adjusted data for each state
+Arkansas15 <- read.table(file.choose(), header = TRUE, sep = ",")
+California15 <- read.table(file.choose(), header = TRUE, sep = ",")
+DC15 <- read.table(file.choose(), header = TRUE, sep = ",")
+Indiana15 <- read.table(file.choose(), header = TRUE, sep = ",")
+NewYork15 <- read.table(file.choose(), header = TRUE, sep = ",")
+Wyoming15 <- read.table(file.choose(), header = TRUE, sep = ",")
+
+#Pairs Plot for each state with adjusted data
+pairs(Arkansas15, main = "Arkansas Adj Abortion")
+pairs(California15, main = "California Adj Abortion")
+pairs(DC15, main = "DC Adj Abortion")
+pairs(Indiana15, main = "Indiana Adj Abortion")
+pairs(NewYork15, main = "New York Adj Abortion")
+pairs(Wyoming15, main = "Wyoming Adj Abortion")
+
+#Correlation Plot for each state
+corArkansas <- as.matrix(Arkansas[,c(3:10)])
+corCalifornia <- as.matrix(California[,c(3:10)])
+corDC <- as.matrix(DC[,c(3:10)])
+corIndiana <- as.matrix(Indiana[,c(3:10)])
+corNewYork <- as.matrix(NewYork[,c(3:10)])
+corWyoming <- as.matrix(Wyoming[,c(3:10)])
+
+corrplot(cor(corCalifornia), main = "California", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corArkansas), main = "Arkansas", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corDC), main = "DC", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corIndiana), main = "Indiana", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corNewYork), main = "New York", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corWyoming), main = "Wyoming", mar = c(1,1,1.5,1), tl.cex = .5)
+
+corArkansas15 <- as.matrix(Arkansas15[,c(3:10)])
+corCalifornia15 <- as.matrix(California15[,c(3:10)])
+corDC15 <- as.matrix(DC15[,c(3:10)])
+corIndiana15 <- as.matrix(Indiana15[,c(3:10)])
+corNewYork15 <- as.matrix(NewYork15[,c(3:10)])
+corWyoming15 <- as.matrix(Wyoming15[,c(3:10)])
+
+corrplot(cor(corCalifornia15), main = "California Adj Abortion", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corArkansas15), main = "Arkansas Adj Abortion", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corDC15), main = "DC Adj Abortion", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corIndiana15), main = "Indiana Adj Abortion", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corNewYork15), main = "New York Adj Abortion", mar = c(1,1,1.5,1), tl.cex = .5)
+corrplot(cor(corWyoming15), main = "Wyoming Adj Abortion", mar = c(1,1,1.5,1), tl.cex = .5)
+
+#Arkansas Violent Crime ANOVA
+Arkansasvcrime1 <- lm(Arkansas$VIOLENT.CRIME.RATE ~ Arkansas$UNEMPLOYMENT.RATE)
+Arkansasvcrime2 <- lm(Arkansas$VIOLENT.CRIME.RATE ~ Arkansas$UNEMPLOYMENT.RATE + Arkansas$PER.CAPITA.INCOME)
+Arkansasvcrime3 <- lm(Arkansas$VIOLENT.CRIME.RATE ~ Arkansas$UNEMPLOYMENT.RATE + Arkansas$PER.CAPITA.INCOME + Arkansas$ABORTION.RATE)
+anova(Arkansasvcrime1)
+
+Analysis of Variance Table
+
+Response: Arkansas$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value    Pr(>F)
+Arkansas$UNEMPLOYMENT.RATE  1  83559   83559  14.175 0.0007252
+Residuals                  30 176841    5895                  
+
+Arkansas$UNEMPLOYMENT.RATE ***
+  Residuals                     
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Arkansasvcrime2)
+Analysis of Variance Table
+
+Response: Arkansas$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value    Pr(>F)
+Arkansas$UNEMPLOYMENT.RATE  1  83559   83559 15.6366 0.0004528
+Arkansas$PER.CAPITA.INCOME  1  21870   21870  4.0926 0.0523760
+Residuals                  29 154971    5344                  
+
+Arkansas$UNEMPLOYMENT.RATE ***
+  Arkansas$PER.CAPITA.INCOME .  
+Residuals                     
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Arkansasvcrime3)
+Analysis of Variance Table
+
+Response: Arkansas$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value    Pr(>F)
+Arkansas$UNEMPLOYMENT.RATE  1  83559   83559 15.0987 0.0005704
+Arkansas$PER.CAPITA.INCOME  1  21870   21870  3.9518 0.0566783
+Arkansas$ABORTION.RATE      1     13      13  0.0024 0.9615763
+Residuals                  28 154958    5534                  
+
+Arkansas$UNEMPLOYMENT.RATE ***
+  Arkansas$PER.CAPITA.INCOME .  
+Arkansas$ABORTION.RATE        
+Residuals                     
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> Arkansasvcrime4 <- lm(Arkansas$VIOLENT.CRIME.RATE ~ Arkansas$PER.CAPITA.INCOME)
+> Arkansasvcrime5 <- lm(Arkansas$VIOLENT.CRIME.RATE ~ Arkansas$ABORTION.RATE)
+
+> anova(Arkansasvcrime4)
+Analysis of Variance Table
+
+Response: Arkansas$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value   Pr(>F)
+Arkansas$PER.CAPITA.INCOME  1  84081   84081  14.306 0.000692
+Residuals                  30 176320    5877                 
+
+Arkansas$PER.CAPITA.INCOME ***
+  Residuals                     
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> anova(Arkansasvcrime5)
+Analysis of Variance Table
+
+Response: Arkansas$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+Arkansas$ABORTION.RATE  1   4362  4361.8  0.5111 0.4802
+Residuals              30 256039  8534.6               
+
+#Arkansas Property Crime ANOVA
+Arkansaspcrime1 <- lm(Arkansas$PROPERTY.CRIME.RATE ~ Arkansas$ABORTION.RATE)
+> Arkansaspcrime2 <- lm(Arkansas$PROPERTY.CRIME.RATE ~ Arkansas$UNEMPLOYMENT.RATE)
+> Arkansaspcrime3 <- lm(Arkansas$PROPERTY.CRIME.RATE ~ Arkansas$PER.CAPITA.INCOME)
+> anova(Arkansaspcrime1)
+Analysis of Variance Table
+
+Response: Arkansas$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)
+Arkansas$ABORTION.RATE  1   69446   69446  0.4682 0.4991
+Residuals              30 4449713  148324               
+> anova(Arkansaspcrime2)
+Analysis of Variance Table
+
+Response: Arkansas$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value  Pr(>F)  
+Arkansas$UNEMPLOYMENT.RATE  1  775494  775494  6.2145 0.01842 *
+  Residuals                  30 3743665  124789                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Arkansaspcrime3)
+Analysis of Variance Table
+
+Response: Arkansas$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value  Pr(>F)  
+Arkansas$PER.CAPITA.INCOME  1  780221  780221  6.2602 0.01803 *
+  Residuals                  30 3738939  124631                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> anova(Arkansaspcrime3)
+Analysis of Variance Table
+
+Response: Arkansas$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value  Pr(>F)  
+Arkansas$PER.CAPITA.INCOME  1  780221  780221  6.2602 0.01803 *
+  Residuals                  30 3738939  124631                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> Arkansaspcrime4 <- lm(Arkansas$PROPERTY.CRIME.RATE ~ Arkansas$PER.CAPITA.INCOME + Arkansas$UNEMPLOYMENT.RATE)
+> anova(Arkansaspcrime4)
+Analysis of Variance Table
+
+Response: Arkansas$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value  Pr(>F)  
+Arkansas$PER.CAPITA.INCOME  1  780221  780221  6.3903 0.01718 *
+  Arkansas$UNEMPLOYMENT.RATE  1  198175  198175  1.6231 0.21277  
+Residuals                  29 3540764  122095                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#California violent crime ANOVA
+
+> Californiavcrime1 <- lm(California$VIOLENT.CRIME.RATE ~ California$UNEMPLOYMENT.RATE)
+> Californiavcrime2 <- lm(California$VIOLENT.CRIME.RATE ~ California$PER.CAPITA.INCOME)
+> Californiavcrime3 <- lm(California$VIOLENT.CRIME.RATE ~ California$ABORTION.RATE)
+> anova(Californiavcrime1)
+Analysis of Variance Table
+
+Response: California$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value   Pr(>F)
+California$UNEMPLOYMENT.RATE  1 285815  285815  9.2263 0.005007
+Residuals                    29 898368   30978                 
+
+California$UNEMPLOYMENT.RATE **
+  Residuals                      
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Californiavcrime2)
+Analysis of Variance Table
+
+Response: California$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value    Pr(>F)
+California$PER.CAPITA.INCOME  1 405008  405008  15.074 0.0005499
+Residuals                    29 779175   26868                  
+
+California$PER.CAPITA.INCOME ***
+  Residuals                       
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Californiavcrime3)
+Analysis of Variance Table
+
+Response: California$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)
+California$ABORTION.RATE  1   22070   22070  0.5507  0.464
+Residuals                29 1162113   40073 
+
+> Californiavcrime4 <- lm(California$VIOLENT.CRIME.RATE ~ California$UNEMPLOYMENT.RATE + California$PER.CAPITA.INCOME)
+> anova(Californiavcrime4)
+Analysis of Variance Table
+
+Response: California$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value   Pr(>F)
+California$UNEMPLOYMENT.RATE  1 285815  285815 11.4382 0.002139
+California$PER.CAPITA.INCOME  1 198709  198709  7.9522 0.008725
+Residuals                    28 699659   24988                 
+
+California$UNEMPLOYMENT.RATE **
+  California$PER.CAPITA.INCOME **
+  Residuals                      
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#California Property Prime ANOVA
+
+Californiapcrime1 <- lm(California$PROPERTY.CRIME.RATE ~ California$UNEMPLOYMENT.RATE)
+Californiapcrime2 <- lm(California$PROPERTY.CRIME.RATE ~ California$PER.CAPITA.INCOME)
+Californiapcrime3 <- lm(California$PROPERTY.CRIME.RATE ~ California$ABORTION.RATE)
+anova(Californiapcrime1)
+Analysis of Variance Table
+
+Response: California$PROPERTY.CRIME.RATE
+Df   Sum Sq  Mean Sq F value
+California$UNEMPLOYMENT.RATE  1 14550348 14550348  10.087
+Residuals                    29 41833069  1442520        
+Pr(>F)   
+California$UNEMPLOYMENT.RATE 0.003528 **
+  Residuals                               
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Californiapcrime2)
+Analysis of Variance Table
+
+Response: California$PROPERTY.CRIME.RATE
+                              Df   Sum Sq  Mean Sq F value
+California$PER.CAPITA.INCOME  1 43308345 43308345  96.056
+Residuals                    29 13075072   450865 
+Pr(>F)    
+California$PER.CAPITA.INCOME 1.04e-10 ***
+  Residuals                                
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Californiapcrime3)
+Analysis of Variance Table
+
+Response: California$PROPERTY.CRIME.RATE
+Df   Sum Sq Mean Sq F value Pr(>F)
+California$ABORTION.RATE  1  1242439 1242439  0.6534 0.4255
+Residuals                29 55140977 1901413 
+
+> Californiapcrime4 <- lm(California$PROPERTY.CRIME.RATE ~ California$UNEMPLOYMENT.RATE + California$PER.CAPITA.INCOME)
+> anova(Californiapcrime4)
+Analysis of Variance Table
+
+Response: California$PROPERTY.CRIME.RATE
+Df   Sum Sq  Mean Sq F value
+California$UNEMPLOYMENT.RATE  1 14550348 14550348  33.765
+California$PER.CAPITA.INCOME  1 29767026 29767026  69.076
+Residuals                    28 12066044   430930        
+Pr(>F)    
+California$UNEMPLOYMENT.RATE 3.049e-06 ***
+  California$PER.CAPITA.INCOME 4.823e-09 ***
+  Residuals                                 
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#DC Violent Crime ANOVA
+
+DCvcrime1 <- lm(DC$VIOLENT.CRIME.RATE ~ DC$ABORTION.RATE)
+> DCvcrime2 <- lm(DC$VIOLENT.CRIME.RATE ~ DC$UNEMPLOYMENT.RATE)
+> DCvcrime3 <- lm(DC$VIOLENT.CRIME.RATE ~ DC$PER.CAPITA.INCOME)
+> DCvcrime4 <- lm(DC$VIOLENT.CRIME.RATE ~ DC$PER.CAPITA.INCOME + DC$UNEMPLOYMENT.RATE)
+> anova(DCvcrime1)
+Analysis of Variance Table
+
+Response: DC$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)
+DC$ABORTION.RATE  1  124381  124381  0.5108 0.4803
+Residuals        30 7305709  243524               
+> anova(DCvcrime2)
+Analysis of Variance Table
+
+Response: DC$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value  Pr(>F)  
+DC$UNEMPLOYMENT.RATE  1  697152  697152  3.1063 0.08818 .
+Residuals            30 6732937  224431                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(DCvcrime3)
+Analysis of Variance Table
+
+Response: DC$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)  
+DC$PER.CAPITA.INCOME  1 1077900 1077900  5.0907 0.0315 *
+  Residuals            30 6352189  211740                 
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(DCvcrime4)
+Analysis of Variance Table
+
+Response: DC$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value  Pr(>F)  
+DC$PER.CAPITA.INCOME  1 1077900 1077900  5.2226 0.02979 *
+  DC$UNEMPLOYMENT.RATE  1  366881  366881  1.7776 0.19282  
+Residuals            29 5985309  206390                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# DC Property Crimes ANOVA
+> DCpcrime1 <- lm(DC$PROPERTY.CRIME.RATE ~ DC$ABORTION.RATE)
+> DCpcrime2 <- lm(DC$PROPERTY.CRIME.RATE ~ DC$UNEMPLOYMENT.RATE)
+> DCpcrime3 <- lm(DC$PROPERTY.CRIME.RATE ~ DC$PER.CAPITA.INCOME)
+> DCpcrime4 <- lm(DC$PROPERTY.CRIME.RATE ~ DC$PER.CAPITA.INCOME + DC$UNEMPLOYMENT.RATE)
+> anova(DCpcrime1)
+Analysis of Variance Table
+
+Response: DC$PROPERTY.CRIME.RATE
+Df   Sum Sq Mean Sq F value Pr(>F)
+DC$ABORTION.RATE  1        2       2       0 0.9993
+Residuals        30 70376887 2345896               
+> anova(DCpcrime2)
+Analysis of Variance Table
+
+Response: DC$PROPERTY.CRIME.RATE
+Df   Sum Sq Mean Sq F value Pr(>F)  
+DC$UNEMPLOYMENT.RATE  1  8493311 8493311  4.1174 0.0514 .
+Residuals            30 61883578 2062786                 
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(DCpcrime3)
+Analysis of Variance Table
+
+Response: DC$PROPERTY.CRIME.RATE
+Df   Sum Sq  Mean Sq F value    Pr(>F)    
+DC$PER.CAPITA.INCOME  1 25956803 25956803   17.53 0.0002279 ***
+  Residuals            30 44420086  1480670                      
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(DCpcrime4)
+Analysis of Variance Table
+
+Response: DC$PROPERTY.CRIME.RATE
+Df   Sum Sq  Mean Sq F value    Pr(>F)    
+DC$PER.CAPITA.INCOME  1 25956803 25956803 18.2079 0.0001929 ***
+  DC$UNEMPLOYMENT.RATE  1  3078275  3078275  2.1593 0.1524738    
+Residuals            29 41341811  1425580 
+
+#Indiana Violent Crime ANOVA
+> Indianavcrime1 <- lm(Indiana$VIOLENT.CRIME.RATE ~ Indiana$ABORTION.RATE)
+> Indianavcrime2 <- lm(Indiana$VIOLENT.CRIME.RATE ~ Indiana$UNEMPLOYMENT.RATE)
+> Indianavcrime3 <- lm(Indiana$VIOLENT.CRIME.RATE ~ Indiana$PER.CAPITA.INCOME)
+> Indianavcrime4 <- lm(Indiana$VIOLENT.CRIME.RATE ~ Indiana$PER.CAPITA.INCOME + Indiana$UNEMPLOYMENT.RATE)
+> Indianavcrime5 <- lm(Indiana15$VIOLENT.CRIME.RATE ~ Indiana15$X15_ABORTION.RATE)
+> anova(Indianavcrime1)
+Analysis of Variance Table
+
+Response: Indiana$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+Indiana$ABORTION.RATE  1   6116  6116.0  0.9604 0.3349
+Residuals             30 191045  6368.2               
+> anova(Indianavcrime2)
+Analysis of Variance Table
+
+Response: Indiana$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value   Pr(>F)   
+Indiana$UNEMPLOYMENT.RATE  1  47749   47749  9.5873 0.004224 **
+  Residuals                 30 149413    4980                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Indianavcrime3)
+Analysis of Variance Table
+
+Response: Indiana$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+Indiana$PER.CAPITA.INCOME  1    159   158.8  0.0242 0.8775
+Residuals                 30 197002  6566.7               
+> anova(Indianavcrime4)
+Analysis of Variance Table
+
+Response: Indiana$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value   Pr(>F)   
+Indiana$PER.CAPITA.INCOME  1    159     159  0.0335 0.856107   
+Indiana$UNEMPLOYMENT.RATE  1  59441   59441 12.5312 0.001372 **
+  Residuals                 29 137561    4743                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Indianavcrime5)
+Analysis of Variance Table
+
+Response: Indiana15$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+Indiana15$X15_ABORTION.RATE  1    895   895.3  0.1228 0.7309
+Residuals                   15 109356  7290.4
+
+#Indiana Property Crime ANOVA
+Indianapcrime1 <- lm(Indiana$PROPERTY.CRIME.RATE ~ Indiana$ABORTION.RATE)
+> Indianapcrime2 <- lm(Indiana$PROPERTY.CRIME.RATE ~ Indiana$UNEMPLOYMENT.RATE)
+> Indianapcrime3 <- lm(Indiana$PROPERTY.CRIME.RATE ~ Indiana$PER.CAPITA.INCOME)
+> Indianapcrime4 <- lm(Indiana$PROPERTY.CRIME.RATE ~ Indiana$PER.CAPITA.INCOME + Indiana$UNEMPLOYMENT.RATE)
+> Indianapcrime5 <- lm(Indiana15$PROPERTY.CRIME.RATE ~ Indiana15$X15_ABORTION.RATE)
+> anova(Indianapcrime5)
+Analysis of Variance Table
+
+Response: Indiana15$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)
+Indiana15$X15_ABORTION.RATE  1   19333   19333  0.1983 0.6625
+Residuals                   15 1462531   97502               
+> anova(Indianapcrime1)
+Analysis of Variance Table
+
+Response: Indiana$PROPERTY.CRIME.RATE
+Df   Sum Sq Mean Sq F value Pr(>F)
+Indiana$ABORTION.RATE  1    82437   82437  0.2092 0.6507
+Residuals             30 11819560  393985               
+> anova(Indianapcrime2)
+Analysis of Variance Table
+
+Response: Indiana$PROPERTY.CRIME.RATE
+                          Df   Sum Sq Mean Sq F value Pr(>F)
+Indiana$UNEMPLOYMENT.RATE  1   337621  337621  0.8758 0.3568
+Residuals                 30 11564377  385479               
+> anova(Indianapcrime3)
+Analysis of Variance Table
+
+Response: Indiana$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value    Pr(>F)
+Indiana$PER.CAPITA.INCOME  1 3931382 3931382  14.797 0.0005809
+Residuals                 30 7970615  265687                  
+
+Indiana$PER.CAPITA.INCOME ***
+  Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Indianapcrime3)
+Analysis of Variance Table
+
+Response: Indiana$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value    Pr(>F)
+Indiana$PER.CAPITA.INCOME  1 3931382 3931382  14.797 0.0005809
+Residuals                 30 7970615  265687                  
+
+Indiana$PER.CAPITA.INCOME ***
+  Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Indianapcrime4)
+Analysis of Variance Table
+
+Response: Indiana$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value   Pr(>F)
+Indiana$PER.CAPITA.INCOME  1 3931382 3931382 14.6799 0.000631
+Indiana$UNEMPLOYMENT.RATE  1  204214  204214  0.7625 0.389707
+Residuals                 29 7766401  267807                 
+
+Indiana$PER.CAPITA.INCOME ***
+  Indiana$UNEMPLOYMENT.RATE    
+Residuals                    
+
+#New York Violent Crime ANOVA
+NewYorkvcrime1 <- lm(NewYork$VIOLENT.CRIME.RATE ~ NewYork$ABORTION.RATE)
+> NewYorkvcrime2 <- lm(NewYork$VIOLENT.CRIME.RATE ~ NewYork$UNEMPLOYMENT.RATE)
+> NewYorkvcrime3 <- lm(NewYork$VIOLENT.CRIME.RATE ~ NewYork$PER.CAPITA.INCOME)
+> NewYorkvcrime4 <- lm(NewYork$VIOLENT.CRIME.RATE ~ NewYork$PER.CAPITA.INCOME + NewYork$UNEMPLOYMENT.RATE)
+> NewYorkvcrime5 <- lm(NewYork15$VIOLENT.CRIME.RATE ~ NewYork15$ABORTION.RATE)
+> anova(NewYorkvcrime1)
+Analysis of Variance Table
+
+Response: NewYork$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)
+NewYork$ABORTION.RATE  1   46303   46303  0.5983 0.4453
+Residuals             30 2321617   77387               
+> anova(NewYorkvcrime2)
+Analysis of Variance Table
+
+Response: NewYork$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value  Pr(>F)  
+NewYork$UNEMPLOYMENT.RATE  1  476185  476185  7.5516 0.01005 *
+  Residuals                 30 1891736   63058                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(NewYorkvcrime3)
+Analysis of Variance Table
+
+Response: NewYork$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value    Pr(>F)
+NewYork$PER.CAPITA.INCOME  1 1354717 1354717  40.112 5.512e-07
+Residuals                 30 1013204   33773                  
+
+NewYork$PER.CAPITA.INCOME ***
+  Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(NewYorkvcrime4)
+Analysis of Variance Table
+
+Response: NewYork$VIOLENT.CRIME.RATE
+Df  Sum Sq Mean Sq F value    Pr(>F)
+NewYork$PER.CAPITA.INCOME  1 1354717 1354717 39.8620 6.762e-07
+NewYork$UNEMPLOYMENT.RATE  1   27634   27634  0.8131    0.3746
+Residuals                 29  985569   33985                  
+
+NewYork$PER.CAPITA.INCOME ***
+  NewYork$UNEMPLOYMENT.RATE    
+Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(NewYorkvcrime5)
+Analysis of Variance Table
+
+Response: NewYork15$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+NewYork15$ABORTION.RATE  1   6710    6710  0.1511 0.7029
+Residuals               15 666066   44404  
+
+#New York Property Crime ANOVA
+> NewYorkpcrime1 <- lm(NewYork$PROPERTY.CRIME.RATE ~ NewYork$ABORTION.RATE)
+> NewYorkpcrime1 <- lm(NewYork$PROPERTY.CRIME.RATE ~ NewYork$UNEMPLOYMENT.RATE)
+> NewYorkpcrime2 <- lm(NewYork$PROPERTY.CRIME.RATE ~ NewYork$UNEMPLOYMENT.RATE)
+> NewYorkpcrime1 <- lm(NewYork$PROPERTY.CRIME.RATE ~ NewYork$ABORTION.RATE)
+> NewYorkpcrime3 <- lm(NewYork$PROPERTY.CRIME.RATE ~ NewYork$PER.CAPITA.INCOME)
+> NewYorkpcrime4 <- lm(NewYork$PROPERTY.CRIME.RATE ~ NewYork$PER.CAPITA.INCOME + NewYork$UNEMPLOYMENT.RATE)
+> NewYorkpcrime5 <- lm(NewYork15$PROPERTY.CRIME.RATE ~ NewYork15$ABORTION.RATE)
+> anova(NewYorkpcrime1)
+Analysis of Variance Table
+
+Response: NewYork$PROPERTY.CRIME.RATE
+Df   Sum Sq Mean Sq F value Pr(>F)
+NewYork$ABORTION.RATE  1  1090949 1090949  0.5537 0.4626
+Residuals             30 59108057 1970269               
+> anova(NewYorkpcrime2)
+Analysis of Variance Table
+
+Response: NewYork$PROPERTY.CRIME.RATE
+Df   Sum Sq  Mean Sq F value   Pr(>F)
+NewYork$UNEMPLOYMENT.RATE  1 16370163 16370163  11.205 0.002208
+Residuals                 30 43828843  1460961                 
+
+NewYork$UNEMPLOYMENT.RATE **
+  Residuals                   
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(NewYorkpcrime3)
+Analysis of Variance Table
+
+Response: NewYork$PROPERTY.CRIME.RATE
+Df   Sum Sq  Mean Sq F value    Pr(>F)
+NewYork$PER.CAPITA.INCOME  1 44880309 44880309  87.893 2.011e-10
+Residuals                 30 15318697   510623                  
+
+NewYork$PER.CAPITA.INCOME ***
+  Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(NewYorkpcrime4)
+Analysis of Variance Table
+
+Response: NewYork$PROPERTY.CRIME.RATE
+Df   Sum Sq  Mean Sq F value    Pr(>F)
+NewYork$PER.CAPITA.INCOME  1 44880309 44880309 91.4271 1.806e-10
+NewYork$UNEMPLOYMENT.RATE  1  1082998  1082998  2.2062    0.1482
+Residuals                 29 14235699   490886                  
+
+NewYork$PER.CAPITA.INCOME ***
+  NewYork$UNEMPLOYMENT.RATE    
+Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(NewYorkpcrime5)
+Analysis of Variance Table
+
+Response: NewYork15$PROPERTY.CRIME.RATE
+Df   Sum Sq Mean Sq F value Pr(>F)
+NewYork15$ABORTION.RATE  1   112196  112196  0.1682 0.6875
+Residuals               15 10005250  667017           
+
+#Wyoming Violent crime ANOVA
+Wyomingvcrime1 <- lm(Wyoming$VIOLENT.CRIME.RATE ~ Wyoming$ABORTION.RATE)
+> Wyomingvcrime2 <- lm(Wyoming$VIOLENT.CRIME.RATE ~ Wyoming$ABORTION.RATE)
+> Wyomingvcrime2 <- lm(Wyoming$VIOLENT.CRIME.RATE ~ Wyoming$UNEMPLOYMENT.RATE)
+> Wyomingvcrime3 <- lm(Wyoming$VIOLENT.CRIME.RATE ~ Wyoming$PER.CAPITA.INCOME)
+> Wyomingvcrime4 <- lm(Wyoming$VIOLENT.CRIME.RATE ~ Wyoming$UNEMPLOYMENT.RATE + Wyoming$PER.CAPITA.INCOME)
+> Wyomingvcrime5 <- lm(Wyoming15$VIOLENT.CRIME.RATE ~ Wyoming15$ABORTION.RATE)
+> anova(Wyomingvcrime1)
+Analysis of Variance Table
+
+Response: Wyoming$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+Wyoming$ABORTION.RATE  1    299  299.39  0.1265 0.7247
+Residuals             29  68644 2367.05               
+> anova(Wyomingvcrime2)
+Analysis of Variance Table
+
+Response: Wyoming$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+Wyoming$UNEMPLOYMENT.RATE  1   2358  2358.4  1.0271 0.3192
+Residuals                 29  66585  2296.1               
+> anova(Wyomingvcrime3)
+Analysis of Variance Table
+
+Response: Wyoming$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value  Pr(>F)  
+Wyoming$PER.CAPITA.INCOME  1  12901 12901.1  6.6758 0.01508 *
+  Residuals                 29  56043  1932.5                  
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Wyomingvcrime4)
+Analysis of Variance Table
+
+Response: Wyoming$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value    Pr(>F)
+Wyoming$UNEMPLOYMENT.RATE  1   2358  2358.4  1.6985 0.2031020
+Wyoming$PER.CAPITA.INCOME  1  27707 27707.0 19.9544 0.0001189
+Residuals                 28  38878  1388.5                  
+
+Wyoming$UNEMPLOYMENT.RATE    
+Wyoming$PER.CAPITA.INCOME ***
+  Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Wyomingvcrime5)
+Analysis of Variance Table
+
+Response: Wyoming15$VIOLENT.CRIME.RATE
+Df Sum Sq Mean Sq F value Pr(>F)
+Wyoming15$ABORTION.RATE  1    8.3   8.304  0.0317 0.8613
+Residuals               14 3672.2 262.301 
+
+#Wyoming Property crime ANOVA
+Wyomingpcrime1 <- lm(Wyoming$PROPERTY.CRIME.RATE ~ Wyoming$ABORTION.RATE)
+> Wyomingpcrime2 <- lm(Wyoming$PROPERTY.CRIME.RATE ~ Wyoming$UNEMPLOYMENT.RATE)
+> Wyomingpcrime3 <- lm(Wyoming$PROPERTY.CRIME.RATE ~ Wyoming$PER.CAPITA.INCOME)
+> Wyomingpcrime4 <- lm(Wyoming$PROPERTY.CRIME.RATE ~ Wyoming$UNEMPLOYMENT.RATE + Wyoming$PER.CAPITA.INCOME)
+> Wyomingpcrime5 <- lm(Wyoming15$PROPERTY.CRIME.RATE ~ Wyoming15$ABORTION.RATE)
+> anova(Wyomingpcrime1)
+Analysis of Variance Table
+
+Response: Wyoming$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)
+Wyoming$ABORTION.RATE  1  158384  158384  0.4606 0.5027
+Residuals             29 9971723  343853               
+> anova(Wyomingpcrime2)
+Analysis of Variance Table
+
+Response: Wyoming$PROPERTY.CRIME.RATE
+Df   Sum Sq Mean Sq F value Pr(>F)
+Wyoming$UNEMPLOYMENT.RATE  1    25732   25732  0.0739 0.7877
+Residuals                 29 10104375  348427               
+> anova(Wyomingpcrime3)
+Analysis of Variance Table
+
+Response: Wyoming$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value    Pr(>F)
+Wyoming$PER.CAPITA.INCOME  1 4635551 4635551  24.466 2.945e-05
+Residuals                 29 5494556  189467                  
+
+Wyoming$PER.CAPITA.INCOME ***
+  Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Wyomingpcrime4)
+Analysis of Variance Table
+
+Response: Wyoming$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value    Pr(>F)
+Wyoming$UNEMPLOYMENT.RATE  1   25732   25732  0.1774    0.6768
+Wyoming$PER.CAPITA.INCOME  1 6043290 6043290 41.6667 5.429e-07
+Residuals                 28 4061085  145039                  
+
+Wyoming$UNEMPLOYMENT.RATE    
+Wyoming$PER.CAPITA.INCOME ***
+  Residuals                    
+---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> anova(Wyomingpcrime5)
+Analysis of Variance Table
+
+Response: Wyoming15$PROPERTY.CRIME.RATE
+Df  Sum Sq Mean Sq F value Pr(>F)
+Wyoming15$ABORTION.RATE  1   23953   23953  0.1176 0.7367
+Residuals               14 2850831  203631
+
+
+
+
+
+
+
+
+
+# Principle Component analysis (PCA)
+View(c)
+> summary(c)
+    abortion         violent          property     unemployment       percapita    
+ Min.   :  9.30   Min.   : 201.4   Min.   :1922   Min.   :0.02581   Min.   : 6466  
+ 1st Qu.: 14.51   1st Qu.: 345.3   1st Qu.:3437   1st Qu.:0.05056   1st Qu.:14307  
+ Median : 25.05   Median : 526.5   Median :4067   Median :0.06134   Median :21273  
+ Mean   : 31.22   Mean   : 769.7   Mean   :4520   Mean   :0.06330   Mean   :23292  
+ 3rd Qu.: 42.86   3rd Qu.: 979.8   3rd Qu.:5231   3rd Qu.:0.07543   3rd Qu.:29892  
+ Max.   :117.50   Max.   :2921.8   Max.   :9512   Max.   :0.11905   Max.   :65329  
+> cor(c)
+               abortion   violent   property unemployment   percapita
+abortion     1.00000000 0.7821006  0.6841141    0.3754525  0.02211775
+violent      0.78210060 1.0000000  0.8743148    0.3806929  0.19962490
+property     0.68411413 0.8743148  1.0000000    0.4291578 -0.12280842
+unemployment 0.37545250 0.3806929  0.4291578    1.0000000 -0.34608102
+percapita    0.02211775 0.1996249 -0.1228084   -0.3460810  1.00000000
+> pca1<-princomp(c, scores=T, cor=T)
+> summary(pca1)
+Importance of components:
+                          Comp.1    Comp.2    Comp.3     Comp.4    Comp.5
+Standard deviation     1.6800777 1.1299603 0.7224509 0.57039229 0.2307510
+Proportion of Variance 0.5645322 0.2553621 0.1043870 0.06506947 0.0106492
+Cumulative Proportion  0.5645322 0.8198943 0.9242813 0.98935080 1.0000000
+> loadings(pca1)
+
+Loadings:
+             Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
+abortion     -0.516  0.126 -0.146  0.815  0.180
+violent      -0.554  0.260        -0.229 -0.756
+property     -0.546        -0.312 -0.527  0.572
+unemployment -0.358 -0.496  0.788              
+percapita            0.819  0.509         0.254
+
+               Comp.1 Comp.2 Comp.3 Comp.4 Comp.5
+SS loadings       1.0    1.0    1.0    1.0    1.0
+Proportion Var    0.2    0.2    0.2    0.2    0.2
+Cumulative Var    0.2    0.4    0.6    0.8    1.0
+> plot(pca1)
+> screeplot(pca1, type="line", main="Scree Plot")
+> biplot(pca1)
+> pca1$scores[1:10, ]
+         Comp.1    Comp.2     Comp.3       Comp.4     Comp.5
+ [1,] 1.2745818 -1.473026 -0.4387074  0.075498952 -0.5031869
+ [2,] 1.1894799 -1.386524 -0.4950812  0.080567595 -0.4593280
+ [3,] 0.8623371 -1.765163  0.1237831 -0.014670784 -0.2773647
+ [4,] 0.6784791 -1.985575  0.6184529 -0.024151648 -0.1803825
+ [5,] 0.4445465 -2.204031  1.0317227 -0.041758150 -0.1273301
+ [6,] 0.5751122 -2.264710  1.2640779  0.009076279 -0.2087141
+ [7,] 0.9387478 -1.788613  0.7260616 -0.002438897 -0.3386033
+ [8,] 0.7934617 -1.778589  0.8029520 -0.056217425 -0.2735648
+ [9,] 0.4607936 -1.676805  0.7068077  0.127630069 -0.1513467
+[10,] 0.5487363 -1.547672  0.5714693 -0.144180901 -0.2479786
+
+
+
+
+# Multi Linear Regression 
+
+#Arkansas
+arkansas<- read.csv (file.choose(), header = T)
+plot(arkansas)
+model1<- lm(violent~ abortion + unemployment + percapita, data= arkansas)
+model1
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = arkansas)
+
+Coefficients:
+ (Intercept)      abortion  unemployment     percapita  
+     84.6150       27.5398    -2996.6573        0.0119  
+
+plot(model1)
+par(mfrow=c(2,2))
+plot(model1)
+summary(model1)
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = arkansas)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-155.328  -38.625    8.958   39.069   87.561 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   8.462e+01  1.264e+02   0.670  0.50898    
+abortion      2.754e+01  5.899e+00   4.669 8.06e-05 ***
+unemployment -2.997e+03  9.953e+02  -3.011  0.00573 ** 
+percapita     1.190e-02  2.581e-03   4.612 9.35e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 56.6 on 26 degrees of freedom
+Multiple R-squared:  0.6757,	Adjusted R-squared:  0.6383 
+F-statistic: 18.06 on 3 and 26 DF,  p-value: 1.533e-06
+
+
+
+# California
+calif<- read.csv (file.choose(), header = T)
+plot(calif)
+model1<- lm(violent~ abortion + unemployment + percapita, data= calif)
+model1
+all:
+lm(formula = violent ~ abortion + unemployment + percapita, data = arkansas)
+
+Coefficients:
+ (Intercept)      abortion  unemployment     percapita  
+     84.6150       27.5398    -2996.6573        0.0119  
+
+
+par(mfrow=c(2,2))
+plot(model1)
+summary(model1)
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = arkansas)
+
+
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-155.328  -38.625    8.958   39.069   87.561 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   8.462e+01  1.264e+02   0.670  0.50898    
+abortion      2.754e+01  5.899e+00   4.669 8.06e-05 ***
+unemployment -2.997e+03  9.953e+02  -3.011  0.00573 ** 
+percapita     1.190e-02  2.581e-03   4.612 9.35e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 56.6 on 26 degrees of freedom
+Multiple R-squared:  0.6757,	Adjusted R-squared:  0.6383 
+F-statistic: 18.06 on 3 and 26 DF,  p-value: 1.533e-06
+
+
+
+# DC
+dc<- read.csv (file.choose(), header = T)
+plot(dc)
+model1<- lm(violent~ abortion + unemployment + percapita, data= dc)
+model1
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = dc)
+
+Coefficients:
+ (Intercept)      abortion  unemployment     percapita  
+   1.710e+03    -1.386e-01     7.017e+03    -9.956e-03  
+
+
+par(mfrow=c(2,2))
+plot(model1)
+summary(model1)
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = dc)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-696.02 -258.16  -80.42  149.55  927.16 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)   
+(Intercept)   1.710e+03  4.863e+02   3.516  0.00151 **
+abortion     -1.386e-01  1.235e-01  -1.121  0.27161   
+unemployment  7.017e+03  5.526e+03   1.270  0.21459   
+percapita    -9.956e-03  4.774e-03  -2.085  0.04628 * 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 452.3 on 28 degrees of freedom
+Multiple R-squared:  0.2291,	Adjusted R-squared:  0.1465 
+F-statistic: 2.773 on 3 and 28 DF,  p-value: 0.05991
+
+
+
+
+
+
+
+#Indiana
+ind<- read.csv (file.choose(), header = T)
+plot(ind)
+model1<- lm(violent~ abortion + unemployment + percapita, data= ind)
+model1
+
+
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = ind)
+
+Coefficients:
+ (Intercept)      abortion  unemployment     percapita  
+   5.777e+02    -1.351e-03    -2.194e+03    -2.908e-03  
+
+
+par(mfrow=c(2,2))
+plot(model1)
+summary(model1)
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = ind)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-109.32  -47.95  -19.07   54.95  119.09 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   5.777e+02  6.297e+01   9.174 6.23e-10 ***
+abortion     -1.351e-03  1.166e-03  -1.158  0.25667    
+unemployment -2.194e+03  6.144e+02  -3.571  0.00131 ** 
+percapita    -2.908e-03  1.677e-03  -1.734  0.09393 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 68.47 on 28 degrees of freedom
+Multiple R-squared:  0.3342,	Adjusted R-squared:  0.2628 
+F-statistic: 4.684 on 3 and 28 DF,  p-value: 0.008961
+
+
+#New York
+ny<- read.csv (file.choose(), header = T)
+plot(ny)
+model1<- lm(violent~ abortion + unemployment + percapita, data= ny)
+model1
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = ny)
+
+Coefficients:
+ (Intercept)      abortion  unemployment     percapita  
+  1041.87160       0.00042    2632.27115      -0.01609  
+
+par(mfrow=c(2,2))
+plot(model1)
+summary(model1)
+
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = ny)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-455.87  -78.36  -38.18   37.39  377.35 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   1.042e+03  2.402e+02   4.338 0.000169 ***
+abortion      4.200e-04  1.179e-03   0.356 0.724188    
+unemployment  2.632e+03  2.870e+03   0.917 0.366855    
+percapita    -1.609e-02  3.249e-03  -4.953 3.15e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 187.2 on 28 degrees of freedom
+Multiple R-squared:  0.5857,	Adjusted R-squared:  0.5413 
+F-statistic: 13.19 on 3 and 28 DF,  p-value: 1.491e-05
+
+
+#Wyoming
+wyoming<- read.csv (file.choose(), header = T)
+plot(wyoming)
+model1<- lm(violent~ abortion + unemployment + percapita, data= wyoming)
+model1
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = wyoming)
+
+Coefficients:
+ (Intercept)      abortion  unemployment     percapita  
+   4.608e+02     1.204e-02    -2.153e+03    -3.416e-03  
+
+
+par(mfrow=c(2,2))
+plot(model1)
+summary(model1)
+Call:
+lm(formula = violent ~ abortion + unemployment + percapita, data = wyoming)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-83.58 -22.39  -1.66  14.43 101.47 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   4.608e+02  3.827e+01  12.040  2.3e-12 ***
+abortion      1.204e-02  6.929e-03   1.738 0.093657 .  
+unemployment -2.153e+03  5.338e+02  -4.034 0.000405 ***
+percapita    -3.416e-03  7.125e-04  -4.794  5.3e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 35.99 on 27 degrees of freedom
+Multiple R-squared:  0.4928,	Adjusted R-squared:  0.4365 
+F-statistic: 8.745 on 3 and 27 DF,  p-value: 0.0003238
+
+
+
+
+
+
+
+
+
+
+
+#Partial Least Square (PLS)
+#Arkansas
+ArkansastrainX <- Arkansas[c(1:30),c(3,9,10)]
+ArkansastrainY <- Arkansas[c(1:30),4]
+ArkansastestX <- Arkansas[31,c(3,9,10)]
+ArkansastestY <- Arkansas[31,4]
+
+plsTune <- train(x=ArkansastrainX, y = ArkansastrainY, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 26, 28, 27, 26, 27, 28, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE         Rsquared   RMSE SD       Rsquared SD
+1         74.48985  0.6507320      21.67355  0.4274440  
+2      58538.74804  0.6331852  184873.69967  0.4203767  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1. 
+
+> testResultsPLS <- data.frame(obs = ArkansastestY, pred = predict(plsTune, ArkansastestX))
+> defaultSummary(testResultsPLS)
+RMSE Rsquared 
+68.73895       NA 
+
+#California
+CaliforniatrainX <- California[c(1:30), c(3,9,10)]
+CaliforniatrainY <- California[c(1:30),4]
+CaliforniatestX <- California[31,c(3,9,10)]
+CaliforniatestY <- California[31,4]
+> plsTune <- train(x=CaliforniatrainX, y = CaliforniatrainY, method = "pls", trControl = ctrl)
+> plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 26, 27, 27, 27, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE         Rsquared   RMSE SD       Rsquared SD
+1         178.3731  0.7713384      62.66614  0.3068853  
+2      129940.7423  0.6920110  410394.74334  0.3545034  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1. 
+
+testResultsPLS <- data.frame(obs = CaliforniatestY, pred = predict(plsTune, CaliforniatestX))
+defaultSummary(testResultsPLS)
+RMSE Rsquared 
+253.621       NA 
+
+#DC
+DCtrainX <- DC[c(1:30), c(3,9,10)]
+DCtrainY <- DC[c(1:30), 4]
+DCtestX <- DC[31,c(3,9,10)]
+DCtestY <- DC[31,4]
+plsTune <- train(x=DCtrainX, y = DCtrainY, method = "pls", trControl = ctrl)
+plsTune
+
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 26, 27, 27, 28, 27, 27, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE       Rsquared   RMSE SD   Rsquared SD
+1       409.3718  0.7657826   190.646  0.3405175  
+2      2318.8651  0.7604579  6129.077  0.3329512  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1.
+
+testResultsPLS <- data.frame(obs = DCtestY, pred = predict(plsTune, DCtestX))
+defaultSummary(testResultsPLS)
+RMSE Rsquared 
+134.4326       NA 
+
+#Indiana
+IndianatrainX <- Indiana[c(1:30), c(3,9,10)]
+IndianatrainY <- Indiana[c(1:30), 4]
+IndianatestX <- Indiana[31,c(3,9,10)]
+IndianatestY <- Indiana[31,4]
+plsTune <- train(x=IndianatrainX, y = IndianatrainY, method = "pls", trControl = ctrl)
+plsTune
+testResultsPLS <- data.frame(obs = IndianatestY, pred = predict(plsTune, IndianatestX))
+defaultSummary(testResultsPLS)
+
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 26, 27, 27, 27, 28, 28, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE          Rsquared   RMSE SD       Rsquared SD
+1          83.85666  0.5886293      15.71564  0.3917730  
+2      118673.48068  0.5666851  375010.08268  0.3921168  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1. 
+
+RMSE Rsquared 
+62.22184       NA 
+
+#New York
+
+NewYorktrainX <- NewYork[c(1:30), c(3,9,10)]
+NewYorktrainY <- NewYork[c(1:30), 4]
+NewYorktestX <- NewYork[31,c(3,9,10)]
+NewYorktestY <- NewYork[31,4]
+plsTune <- train(x=NewYorktrainX, y = NewYorktrainY, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 28, 28, 26, 26, 26, 28, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE        Rsquared   RMSE SD       Rsquared SD
+1         205.125  0.8307989  9.014795e+01  0.3145678  
+2      620374.260  0.7578150  1.961243e+06  0.3606838  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1.
+
+testResultsPLS <- data.frame(obs = NewYorktestY, pred = predict(plsTune, NewYorktestX))
+defaultSummary(testResultsPLS)
+RMSE Rsquared 
+230.6833       NA 
+
+#Wyoming
+WyomingtrainX <- Wyoming[c(1:30), c(3,9,10)]
+WyomingtrainY <- Wyoming[c(1:30), 4]
+WyomingtestX <- Wyoming[31,c(3,9,10)]
+WyomingtestY <- Wyoming[31,4]
+plsTune <- train(x=WyomingtrainX, y = WyomingtrainY, method = "pls", trControl = ctrl)
+plsTune
+
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 26, 28, 27, 28, 28, 26, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE        Rsquared   RMSE SD     Rsquared SD
+1        38.17158  0.6245625    24.04399  0.4241305  
+2      1526.40970  0.6909571  4703.64010  0.3667125  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1.
+
+testResultsPLS <- data.frame(obs = WyomingtestY, pred = predict(plsTune, WyomingtestX))
+defaultSummary(testResultsPLS)
+
+RMSE Rsquared 
+28.48926       NA 
+
+#Robust Linear Model (RLM) with PCR Preprocessing
+#Arkansas
+lmPCA <- train(x = ArkansastrainX, y = ArkansastrainY, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 28, 28, 26, 27, 28, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+60488.69  0.7663087  191037.4  0.3057663  
+
+
+testResultsPCA <- data.frame(obs = ArkansastestY, pred = predict(lmPCA, ArkansastestX))
+defaultSummary(testResultsPCA)
+RMSE Rsquared 
+40.51703       NA 
+
+#California PCR
+lmPCA <- train(x = CaliforniatrainX, y = CaliforniatrainY, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 28, 27, 26, 27, 27, 27, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+71044.17  0.5417877  224153.9  0.4279677 
+
+testResultsPCA <- data.frame(obs = CaliforniatestY, pred = predict(lmPCA, CaliforniatestX))
+defaultSummary(testResultsPCA)
+RMSE Rsquared 
+134.5773       NA 
+
+#DC PCR
+lmPCA <- train(x = DCtrainX, y = DCtrainY, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 26, 26, 26, 28, ... 
+Resampling results
+
+RMSE    Rsquared   RMSE SD  Rsquared SD
+547.37  0.5954843  271.633  0.3471864 
+
+testResultsPCA <- data.frame(obs = DCtestY, pred = predict(lmPCA, DCtestX))
+defaultSummary(testResultsPCA)
+RMSE Rsquared 
+187.9865       NA 
+
+#Indiana PCR
+lmPCA <- train(x = IndianatrainX, y = IndianatrainY, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 28, 26, 27, 27, 26, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+37911.82  0.7908648  119652.5  0.270706 
+testResultsPCA <- data.frame(obs = IndianatestY, pred = predict(lmPCA, IndianatestX))
+defaultSummary(testResultsPCA)
+
+defaultSummary(testResultsPCA)
+RMSE Rsquared 
+11.65       NA 
+
+#New York PCR
+lmPCA <- train(x = NewYorktrainX, y = NewYorktrainY, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 27, 27, 26, 28, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD  Rsquared SD
+437709.7  0.7900222  1383539  0.3056599 
+testResultsPCA <- data.frame(obs = NewYorktestY, pred = predict(lmPCA, NewYorktestX))
+defaultSummary(testResultsPCA)
+RMSE Rsquared 
+29.1227       NA 
+
+#Wyoming PCR
+lmPCA <- train(x = WyomingtrainX, y = WyomingtrainY, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 28, 27, 27, 27, 27, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD  Rsquared SD
+623.2496  0.7009921  1852.07  0.285735  
+testResultsPCA <- data.frame(obs = WyomingtestY, pred = predict(lmPCA, WyomingtestX))
+defaultSummary(testResultsPCA)
+RMSE Rsquared 
+28.46257       NA 
+
+#All States Data compiled
+trainX <- read.table(file.choose(), header = T, sep = ",")
+trainY <- read.table(file.choose(), header = T, sep = ",")
+plsTune <- train(x = trainX, y = trainY, method = "pls", trControl = ctrl)
+Error: length(y) > 1 is not TRUE
+plsTune
+
+testX <- read.table(file.choose(), header = T, sep = ",")
+testX <- testX[,c(3,9,10)]
+testY <- read.table(file.choose(), header = T, sep = ",")
+testY <- testY[,4]
+testResultsPLS <- data.frame(obs = testY, pred = predict(plsTune, testX))
+
+ctrl <- trainControl(method = "cv", number = 10)
+
+#For all states PLS Violent Crime
+testXX <- test[c(1:6),c(3,9,10)]
+testYY <- test[c(1:6), 4]
+trainXX <- train[c(1:180), c(3,9,10)]
+trainYY <- train[c(1:180), 4]
+plsTune <- train(x=trainXX, y = trainYY, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+180 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 163, 161, 163, 161, 162, 162, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE      Rsquared    RMSE SD   Rsquared SD
+1      570.2502  0.07365974  159.8859  0.1157578  
+2      592.5912  0.06086179  147.9153  0.1158873  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1.
+
+testResultsPLS <- data.frame(obs = testYY, pred = predict(plsTune, testXX))
+defaultSummary(testResultsPLS)
+RMSE  Rsquared 
+535.31384   0.61814 
+
+
+#PCR for all States Violent Crime
+lmPCA <- train(x = trainXX, y = trainYY, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA
+Robust Linear Model 
+
+180 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 162, 162, 162, 162, 161, 160, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+518.8401  0.2995883  92.62329  0.1731701  
+
+testResultsPCA <- data.frame(obs = testYY, pred = predict(lmPCA, testXX))
+defaultSummary(testResultsPCA)
+defaultSummary(testResultsPCA)
+RMSE    Rsquared 
+463.3558975   0.7496673 
+
+#PLS for all States Property Crime
+testXXP <- test[c(1:6),c(3,9,10)]
+testYYP <- test[c(1:6), 5]
+trainXXP <- train[c(1:180), c(3,9,10)]
+trainYYP <- train[c(1:180), 5]
+plsTune <- train(x=trainXXP, y = trainYYP, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+180 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 163, 164, 160, 162, 162, 163, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE      Rsquared    RMSE SD   Rsquared SD
+1      1574.624  0.02828150  160.0837  0.03941047 
+2      1573.340  0.03101748  166.5688  0.03682433 
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 2. 
+
+testResultsPLS <- data.frame(obs = testYYP, pred = predict(plsTune, testXXP))
+defaultSummary(testResultsPLS)
+
+> defaultSummary(testResultsPLS)
+RMSE     Rsquared 
+1336.3921479    0.1795874 
+
+#For all States PCR Property Crime
+lmPCA <- train(x = trainXXP, y = trainYYP, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA
+Robust Linear Model 
+
+180 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 163, 161, 163, 162, 162, 162, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+1458.442  0.1960612  184.3599  0.130231  
+
+testResultsPCA <- data.frame(obs = testYYP, pred = predict(lmPCA, testXXP))
+defaultSummary(testResultsPCA)
+
+RMSE     Rsquared 
+1179.3947100    0.1115694 
+
+#Arkansas Property Crime PLS
+ArkansastrainYP <- Arkansas[c(1:30),5]
+ArkansastestYP <- Arkansas[31,5]
+plsTune <- train(x=ArkansastrainX, y = ArkansastrainYP, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 28, 28, 27, 27, 26, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE         Rsquared   RMSE SD       Rsquared SD
+1         313.8651  0.6605596      155.1478  0.3509183  
+2      373938.2689  0.6605592  1181439.9050  0.3509174  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1. 
+
+testResultsPLS <- data.frame(obs = ArkansastestYP, pred = predict(plsTune, ArkansastestX))
+defaultSummary(testResultsPLS)
+
+RMSE Rsquared 
+335.3872       NA 
+
+#California Property Crime  PLS
+CaliforniatrainYP <- California[c(1:30),5]
+CaliforniatestYP <- California[31,5]
+plsTune <- train(x=CaliforniatrainX, y = CaliforniatrainYP, method = "pls", trControl = ctrl)
+plsTune
+
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 26, 27, 27, 27, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE        Rsquared   RMSE SD       Rsquared SD
+1        1173.546  0.8926559      446.8965  0.1999125  
+2      357389.821  0.8391095  1128390.8592  0.2485765  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1.
+
+testResultsPLS <- data.frame(obs = CaliforniatestYP, pred = predict(plsTune, CaliforniatestX))
+defaultSummary(testResultsPLS)
+
+RMSE Rsquared 
+1504.541       NA
+
+#DC Property Crime PLS
+DCtrainYP <- DC[c(1:30), 5]
+DCtestYP <- DC[31,5]
+plsTune <- train(x=DCtrainX, y = DCtrainYP, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 26, 27, 27, 27, 28, 28, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE       Rsquared   RMSE SD     Rsquared SD
+1       1158.197  0.4808018    353.2211  0.4210525  
+2      10743.662  0.4573818  30173.8670  0.4399578  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1. 
+
+testResultsPLS <- data.frame(obs = DCtestYP, pred = predict(plsTune, DCtestX))
+defaultSummary(testResultsPLS)
+
+RMSE Rsquared 
+69.67035       NA 
+
+#Indiana Property Crime PLS
+IndianatrainYP <- Indiana[c(1:30), 5]
+IndianatestYP <- Indiana[31,5]
+plsTune <- train(x=IndianatrainX, y = IndianatrainYP, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 26, 27, 26, 28, 27, 27, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE         Rsquared   RMSE SD       Rsquared SD
+1         460.2417  0.5989024      466.7756  0.4028571  
+2      798285.6180  0.6159746  2522901.3716  0.3809110  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1. 
+
+testResultsPLS <- data.frame(obs = IndianatestYP, pred = predict(plsTune, IndianatestX))
+defaultSummary(testResultsPLS)
+
+RMSE Rsquared 
+117.0962       NA 
+
+#New York Property Crime PLS
+NewYorktrainYP <- NewYork[c(1:30), 5]
+NewYorktestYP <- NewYork[31,5]
+plsTune <- train(x=NewYorktrainX, y = NewYorktrainYP, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 26, 27, 27, 28, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE          Rsquared   RMSE SD       Rsquared SD
+1          986.6834  0.8783488      297.3883  0.2603996  
+2      1603798.0361  0.8312561  5069605.9098  0.2989160  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1.
+
+testResultsPLS <- data.frame(obs = NewYorktestYP, pred = predict(plsTune, NewYorktestX))
+defaultSummary(testResultsPLS)
+
+RMSE Rsquared 
+652.9332       NA 
+
+#Wyoming Property Crime PLS
+WyomingtrainYP <- Wyoming[c(1:30), 5]
+WyomingtestYP <- Wyoming[31,5]
+plsTune <- train(x=WyomingtrainX, y = WyomingtrainYP, method = "pls", trControl = ctrl)
+plsTune
+Partial Least Squares 
+
+30 samples
+3 predictor
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 28, 27, 27, 28, 27, 28, ... 
+Resampling results across tuning parameters:
+  
+  ncomp  RMSE        Rsquared   RMSE SD     Rsquared SD
+1        345.8307  0.7345438    228.8604  0.3392206  
+2      24028.2573  0.7345417  74787.0132  0.3392220  
+
+RMSE was used to select the optimal model using  the
+smallest value.
+The final value used for the model was ncomp = 1. 
+
+testResultsPLS <- data.frame(obs = WyomingtestYP, pred = predict(plsTune, WyomingtestX))
+defaultSummary(testResultsPLS)
+
+RMSE Rsquared 
+30.90475       NA 
+
+#Arkansas PCR
+lmPCA <- train(x = ArkansastrainX, y = ArkansastrainYP, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 27, 27, 27, 27, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+273064.7  0.6130309  862352.6  0.3993882  
+
+testResultsPCA <- data.frame(obs = ArkansastestYP, pred = predict(lmPCA, ArkansastestX))
+defaultSummary(testResultsPCA)
+
+RMSE Rsquared 
+276.3595       NA 
+
+#California PCR
+lmPCA <- train(x = CaliforniatrainX, y = CaliforniatrainYP, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 28, 26, 27, 27, 27, 26, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD  Rsquared SD
+874454.5  0.8490607  2763321  0.2683332 
+
+testResultsPCA <- data.frame(obs = CaliforniatestYP, pred = predict(lmPCA, CaliforniatestX))
+defaultSummary(testResultsPCA)
+RMSE Rsquared 
+479.0996       NA
+
+#DC PCR
+lmPCA <- train(x = DCtrainX, y = DCtrainYP, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 26, 28, 27, 28, 26, 27, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+3615.416  0.7694487  7707.841  0.2801156  
+
+testResultsPCA <- data.frame(obs = DCtestYP, pred = predict(lmPCA, DCtestX))
+defaultSummary(testResultsPCA)
+
+RMSE Rsquared 
+98.29633       NA
+
+#Indiana PCR
+lmPCA <- train(x = IndianatrainX, y = IndianatrainYP, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 28, 27, 27, 27, 27, 26, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+219605.9  0.5821984  693224.6  0.3824428  
+
+testResultsPCA <- data.frame(obs = IndianatestYP, pred = predict(lmPCA, IndianatestX))
+defaultSummary(testResultsPCA)
+
+RMSE Rsquared 
+107.6353       NA 
+
+#New York PCR
+lmPCA <- train(x = NewYorktrainX, y = NewYorktrainYP, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 28, 26, 26, 28, ... 
+Resampling results
+
+RMSE     Rsquared   RMSE SD  Rsquared SD
+2184932  0.7488721  6907049  0.3295687  
+
+testResultsPCA <- data.frame(obs = NewYorktestYP, pred = predict(lmPCA, NewYorktestX))
+defaultSummary(testResultsPCA)
+
+RMSE Rsquared 
+700.8224       NA 
+
+#Wyoming PCR
+lmPCA <- train(x = WyomingtrainX, y = WyomingtrainYP, method = "rlm", preProcess = "pca", trControl = ctrl)
+lmPCA 
+Robust Linear Model 
+
+30 samples
+3 predictor
+
+Pre-processing: principal component signal extraction,
+scaled, centered 
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 27, 27, 27, 28, 27, 27, ... 
+Resampling results
+
+RMSE      Rsquared   RMSE SD   Rsquared SD
+4407.969  0.6767821  12824.94  0.3332155  
+
+testResultsPCA <- data.frame(obs = WyomingtestYP, pred = predict(lmPCA, WyomingtestX))
+defaultSummary(testResultsPCA)
+
+RMSE Rsquared 
+6.540663       NA
+
